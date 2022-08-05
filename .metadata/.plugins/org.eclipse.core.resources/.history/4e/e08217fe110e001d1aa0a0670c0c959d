@@ -1,0 +1,36 @@
+package com.codingdojo.mvc.controllers;
+
+//import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.codingdojo.mvc.models.Book;
+import com.codingdojo.mvc.services.BookService;
+
+@Controller
+public class BookController {
+	
+	@Autowired //handles dependency injection
+	BookService bookService;
+	
+	@RequestMapping("/books/{bookId}")
+	public String showBook(@PathVariable("bookId") Long bookId, Model model) {
+		//Create an instance of the book
+		Book book = bookService.findBook(bookId);
+		model.addAttribute("book", book);  //String is reference for jsp
+		
+//		List<Book> books = bookService.allBooks();
+//		model.addAttribute("books", books);
+		
+		return "index.jsp";
+	}
+	
+	@RequestMapping("/books")
+	public String index() {
+		
+	}
+}

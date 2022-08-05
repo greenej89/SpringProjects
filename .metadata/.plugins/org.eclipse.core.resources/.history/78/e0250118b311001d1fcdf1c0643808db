@@ -1,0 +1,5 @@
+package com.codingdojo.relationships.controllers;
+
+public class PersonController {
+
+}

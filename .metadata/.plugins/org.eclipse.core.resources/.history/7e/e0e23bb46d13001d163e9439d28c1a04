@@ -1,0 +1,81 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!-- c:out ; c:forEach etc. -->
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!-- form:form -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Driver's Licenses</title>
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/main.css">
+<!-- change to match your file/naming structure -->
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container mt-5">
+		<h1 class="text-primary">New License</h1>
+		<c:choose>
+		<!-- ********************************** If the database contains persons ************************************* -->
+			<c:when test="${allPersons.isEmpty() == false}"> 
+				<p>The list is not empty</p>
+				<form:form action="/licenses/create" method="post" modelAttribute="license">
+					<div class="w-50 mb-3"> 
+						<ul class="list-unstyled">
+							<li><form:errors path="person" class="text-danger" /></li>
+							<li><form:errors path="state" class="text-danger" /></li>
+							<li><form:errors path="expirationDate" class="text-danger" /></li>
+						</ul>
+					</div>
+					
+					
+					<form:hidden path="number" value="${newLicenseNumber}" />
+					
+		<!-- *************************  Uses simple all persons query  ***************************** -->
+					<div class="w-50 mb-3 d-flex justify-content-between">
+						<form:label path="person">Person: </form:label>
+		   				<form:select path="person" class="w-50">
+		   					<form:option value="${null}" label="Please select a person..." />
+							<c:forEach var="onePerson" items="${allPersons}">
+								<c:if test="${onePerson.license==null}">
+									<form:option value="${onePerson.id}" label="${onePerson.fullName}" />
+								</c:if>
+							</c:forEach>
+						</form:select>
+							
+		<!-- ********************  Uses filtering query for unlicensed persons  ******************* -->
+		<%--		
+		  				<form:select path="person" class="w-50">
+							<form:options items="${unlicensedPersons}" itemValue="id" itemLabel="fullName"/>
+						</form:select> 
+		--%>			
+					</div>
+					
+					<div class="w-50 mb-3 d-flex justify-content-between">
+						<form:label path="state">State: </form:label>
+						<form:input path="state" class="w-50" />
+					</div>
+					<div class="w-50 mb-3 d-flex justify-content-between">
+						<form:label path="expirationDate">Expiration Date: </form:label>
+						<form:input type="date" path="expirationDate" class="w-50" />
+					</div>
+					<div class="w-50 mb-3 d-flex">
+						<input type="submit" value="Create" class="btn btn-primary" />
+					</div>
+				</form:form>
+			</c:when>
+			
+			<!-- If there are no persons in the database -->
+			<c:otherwise>
+	            <p class="text-danger">Please add a person before creating a license.</p>
+	            <a href="/persons/new">Add Person</a>
+	        </c:otherwise>
+		</c:choose>
+	</div>
+
+</body>
+</html>

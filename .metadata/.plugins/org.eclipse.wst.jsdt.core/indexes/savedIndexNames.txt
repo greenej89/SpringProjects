@@ -1,0 +1,9 @@
+INDEX VERSION 1.4+/Users/greenej/Documents/dojo_assignments/java/SpringProjects/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+3054852113.index
+1162371178.index
+2940494367.index
+2456277797.index
+885315221.index
+2294782924.index
+3327058493.index
+99031784.index

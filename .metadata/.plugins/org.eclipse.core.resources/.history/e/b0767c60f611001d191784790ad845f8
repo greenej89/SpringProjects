@@ -1,0 +1,37 @@
+package com.codingdojo.relationships.services;
+
+import java.util.ArrayList;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Service;
+
+import com.codingdojo.relationships.models.Person;
+import com.codingdojo.relationships.repositories.PersonRepository;
+
+@Service
+public class PersonService {
+	private final PersonRepository personRepository;
+	
+	public PersonService(PersonRepository personRepository) {
+		this.personRepository = personRepository;
+	}
+	//finds a person by id
+	public Person findPersonById(Long personId) {
+		return personRepository.findById(personId).orElse(null);
+	}
+	
+    // creates a person
+    public Person createPerson(Person person) {
+        return personRepository.save(person);
+    }
+	public ArrayList<Person> allPersons() {
+		return personRepository.findAll();
+	}
+	
+	//gets all persons who do not have a license
+	@Query(value = "SELECT * FROM persons LEFT JOIN licenses ON persons.id = licenses.person_id WHERE person_id IS NULL",
+			nativeQuery = true)
+	public ArrayList<Person> findPersonsWithoutLicense (){
+		return personRepository
+	}
+}

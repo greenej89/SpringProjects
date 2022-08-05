@@ -1,0 +1,19 @@
+package com.codingdojo.relationships.services;
+
+import org.springframework.stereotype.Service;
+
+import com.codingdojo.relationships.models.Person;
+import com.codingdojo.relationships.repositories.PersonRepository;
+
+@Service
+public class PersonService {
+	private final PersonRepository personRepository;
+	
+	public PersonService(PersonService personRepository) {
+		this.personRepository = personRepository;
+	}
+
+	public Person findPersonById(Long personId) {
+		return personRepository.findById(id).orElse(null);
+	}
+}

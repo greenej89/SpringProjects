@@ -1,0 +1,47 @@
+package com.codingdojo.relationships.controllers;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.codingdojo.relationships.models.Person;
+import com.codingdojo.relationships.services.PersonService;
+
+@Controller
+public class PersonController {
+	
+	@Autowired
+	PersonService personService;
+	
+	//CREATE
+	@GetMapping("/persons/new")
+	public String index(@ModelAttribute("person") Person person, Model model) {
+		return "newPerson.jsp";
+	}
+	@PostMapping("/persons/new")
+	public String create(@Valid @ModelAttribute("person") Person person, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			return "newPerson.jsp";
+		} else {
+			personService.createPerson(person);
+			Long personId = person.getId();
+			return String.format("redirect:/persons/%d", personId);
+		}
+	}
+	
+	@GetMapping("/persons/{personId}")
+	public String showPerson(@PathVariable Long personId, Model model) {
+		
+	    Person someAwesomePerson = personService.findPersonById(personId);
+	    model.addAttribute("person", someAwesomePerson);
+	    
+	    return "showPerson.jsp";
+	}
+}

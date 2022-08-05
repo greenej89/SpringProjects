@@ -1,0 +1,12 @@
+package com.codingdojo.mvc.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class BookController {
+	@RequestMapping("/books/2")
+	public String index() {
+		return "index.jsp";
+	}
+}

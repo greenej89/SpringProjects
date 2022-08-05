@@ -1,0 +1,6 @@
+package com.codingdojo.mvc.controllers;
+
+@Controller
+public class BookController {
+
+}

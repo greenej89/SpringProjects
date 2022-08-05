@@ -1,0 +1,12 @@
+package com.codingdojo.relationships.services;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class LicenseService {
+	private final LicenseService licenseService;
+	
+	public LicenseService(LicenseService licenseService){
+		this.licenseService = licenseService;
+	}
+}

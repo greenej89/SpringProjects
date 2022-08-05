@@ -1,0 +1,12 @@
+package com.codingdojo.relationships.services;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class PersonService {
+	private final PersonService personService;
+	
+	public PersonService(PersonService personService) {
+		this.personService = personService;
+	}
+}

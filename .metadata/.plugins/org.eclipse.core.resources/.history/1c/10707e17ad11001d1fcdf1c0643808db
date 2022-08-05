@@ -1,0 +1,61 @@
+package com.codingdojo.relationships.models;
+
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@Table(name="persons")
+public class Person {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@NotNull
+	@NotEmpty
+	private String firstName;
+	@NotNull
+	@NotEmpty
+	private String lastName;
+	@Column(updatable=false)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date createdAt;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date updatedAt;
+	@OneToOne(mappedBy="person", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private License license;
+	
+    public Person() { }
+
+	public Person(String firstName, String lastName, License license) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.license = license;
+	}
+    
+	// getters and setters
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedAt = new Date();
+    }
+
+}
